@@ -5,12 +5,18 @@ const mongoose = require('mongoose');
 const mongoDataMethods = require('./data/db');
 const resolvers = require('./resolver/resolver');
 
+
 // Load Schema & resolvers
 async function startApolloServer(typeDefs, resolvers) {
     const server = new ApolloServer({ typeDefs, resolvers, context: () => ({mongoDataMethods}) });
     await server.start();
 
     const app = express();
+
+    app.use(express.static(path.join(__dirname, "/client/build")));
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
+    });
 
     server.applyMiddleware({ app })
 
