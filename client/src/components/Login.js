@@ -59,7 +59,8 @@ const Login = () => {
                     roomId: roomId
                 }
             })
-            history.push(`/chat/${roomId}/${name}`)
+            const userId = localStorage.getItem('userId');
+            history.push(`/chat/${roomId}/${userId}`)
         }
     };
         if (loading) return <p>Loading room details...</p>

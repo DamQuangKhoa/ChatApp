@@ -4,6 +4,8 @@ const typeDefs = require('./schema/schema');
 const mongoose = require('mongoose');
 const mongoDataMethods = require('./data/db');
 const resolvers = require('./resolver/resolver');
+const path = require('path');
+
 
 
 // Load Schema & resolvers
@@ -20,14 +22,14 @@ async function startApolloServer(typeDefs, resolvers) {
 
     server.applyMiddleware({ app })
 
-    app.listen({ port: process.env.PORT || 4000 }, () =>
-        console.log(`Server ready at http://localhost:4000${server.graphqlPath}`)
+    app.listen({ port: process.env.PORT || 5000 }, () =>
+    console.log(`Server ready at http://localhost:${process.env.PORT}${server.graphqlPath}`)
     )
 }
 const connectDB = async () => {
     try {
         //TODO: Add to ENV 
-        await mongoose.connect('mongodb+srv://ted:1@cluster0.pesoa.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
+        await mongoose.connect(`${process.env.MONGO}`, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
         })
